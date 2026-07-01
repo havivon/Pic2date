@@ -17,6 +17,12 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        // Tesseract4Android (offline Hebrew + English OCR) is published on JitPack.
+        // Scope it to just that group so it never intercepts other dependencies.
+        maven {
+            url = uri("https://jitpack.io")
+            content { includeGroup("com.github.adaptech-cz.Tesseract4Android") }
+        }
     }
 }
 

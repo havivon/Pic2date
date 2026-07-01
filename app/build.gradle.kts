@@ -78,6 +78,7 @@ dependencies {
     implementation(libs.coil.compose)
 
     implementation(libs.mlkit.text.recognition)
+    implementation(libs.tesseract4android)
 
     debugImplementation(libs.androidx.ui.tooling)
 }
