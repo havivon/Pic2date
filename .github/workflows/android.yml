@@ -67,3 +67,22 @@ jobs:
           git add -f pic2date-debug.apk
           git commit -m "APK build for ${GITHUB_SHA}"
           git push -f origin apk-latest
+
+      # Publish a GitHub Release with the APK attached, for an easy mobile
+      # download button (stable URL: /releases/latest/download/Pic2Date.apk).
+      - name: Prepare release APK
+        if: github.ref == 'refs/heads/claude/pic2date-android-app-cy8qmd'
+        run: |
+          APK=$(find app/build/outputs/apk/debug -name "*.apk" | head -1)
+          cp "$APK" Pic2Date.apk
+
+      - name: Publish GitHub Release
+        if: github.ref == 'refs/heads/claude/pic2date-android-app-cy8qmd'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Pic2Date (latest build)
+          body: "Latest debug build of Pic2Date. Download Pic2Date.apk below and install on Android."
+          prerelease: true
+          files: Pic2Date.apk
+          fail_on_unmatched_files: true
