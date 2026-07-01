@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">Pic2Date</string>
+    <string name="app_tagline">הופכים כל תמונה לאירוע ביומן</string>
+
+    <string name="home_title">Pic2Date</string>
+    <string name="home_subtitle">סורקים הזמנה, כרטיס או צילום מסך — והאירוע נוצר ביומן באופן אוטומטי.</string>
+    <string name="action_take_photo">צילום תמונה</string>
+    <string name="action_pick_gallery">בחירה מהגלריה</string>
+    <string name="home_hint">או שתפו תמונה ל‑Pic2Date מכל אפליקציה</string>
+
+    <string name="scanning_title">סורק…</string>
+    <string name="scanning_subtitle">קורא טקסט ומזהה פרטי אירוע</string>
+
+    <string name="confirm_title">בדיקת האירוע</string>
+    <string name="field_title">כותרת</string>
+    <string name="field_date">תאריך</string>
+    <string name="field_time">שעה</string>
+    <string name="field_location">מיקום</string>
+    <string name="field_notes">הערות</string>
+    <string name="field_reminder">תזכורת</string>
+    <string name="hint_not_set">לא הוגדר</string>
+    <string name="action_save">שמירה ליומן</string>
+    <string name="action_cancel">ביטול</string>
+    <string name="action_rescan">סריקה מחדש</string>
+    <string name="action_navigate">ניווט</string>
+    <string name="detected_type">זוהה: %1$s</string>
+    <string name="show_scanned_text">הטקסט שנסרק</string>
+
+    <string name="reminder_none">ללא תזכורת</string>
+    <string name="reminder_10_min">10 דקות לפני</string>
+    <string name="reminder_30_min">30 דקות לפני</string>
+    <string name="reminder_1_hour">שעה לפני</string>
+    <string name="reminder_1_day">יום לפני</string>
+    <string name="reminder_custom">מותאם אישית…</string>
+
+    <string name="success_title">האירוע נשמר</string>
+    <string name="success_subtitle">%1$s נוסף ליומן שלך.</string>
+    <string name="action_open_calendar">פתיחת היומן</string>
+    <string name="action_done">סיום</string>
+    <string name="action_scan_another">סריקה נוספת</string>
+
+    <string name="error_no_text">לא זוהה טקסט בתמונה. נסו תמונה ברורה יותר.</string>
+    <string name="error_ocr_failed">לא הצלחנו לקרוא את התמונה. נסו שוב.</string>
+    <string name="error_no_calendar">לא נמצא חשבון יומן במכשיר.</string>
+    <string name="error_save_failed">לא הצלחנו לשמור את האירוע.</string>
+    <string name="permission_camera_needed">נדרשת הרשאת מצלמה כדי לצלם תמונה.</string>
+    <string name="permission_calendar_needed">נדרשת הרשאת יומן כדי לשמור את האירוע.</string>
+
+    <string name="type_wedding">חתונה</string>
+    <string name="type_flight">טיסה</string>
+    <string name="type_doctor">תור לרופא</string>
+    <string name="type_meeting">פגישה</string>
+    <string name="type_hotel">הזמנת מלון</string>
+    <string name="type_restaurant">הזמנת מסעדה</string>
+    <string name="type_concert">הופעה</string>
+    <string name="type_birthday">יום הולדת</string>
+    <string name="type_school">אירוע בית ספר</string>
+    <string name="type_conference">כנס</string>
+    <string name="type_general">אירוע</string>
+</resources>

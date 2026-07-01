@@ -1,0 +1,67 @@
+<resources>
+    <string name="app_name">Pic2Date</string>
+    <string name="app_tagline">Turn any picture into a calendar event</string>
+
+    <!-- Home -->
+    <string name="home_title">Pic2Date</string>
+    <string name="home_subtitle">Scan an invitation, ticket or screenshot and create a calendar event automatically.</string>
+    <string name="action_take_photo">Take a photo</string>
+    <string name="action_pick_gallery">Choose from gallery</string>
+    <string name="home_hint">Or share an image to Pic2Date from any app</string>
+
+    <!-- Scanning -->
+    <string name="scanning_title">Scanning…</string>
+    <string name="scanning_subtitle">Reading text and detecting event details</string>
+
+    <!-- Confirm -->
+    <string name="confirm_title">Review event</string>
+    <string name="field_title">Title</string>
+    <string name="field_date">Date</string>
+    <string name="field_time">Time</string>
+    <string name="field_location">Location</string>
+    <string name="field_notes">Notes</string>
+    <string name="field_reminder">Reminder</string>
+    <string name="hint_not_set">Not set</string>
+    <string name="action_save">Save to Calendar</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_rescan">Rescan</string>
+    <string name="action_navigate">Navigate</string>
+    <string name="detected_type">Detected: %1$s</string>
+    <string name="show_scanned_text">Scanned text</string>
+
+    <!-- Reminders -->
+    <string name="reminder_none">No reminder</string>
+    <string name="reminder_10_min">10 minutes before</string>
+    <string name="reminder_30_min">30 minutes before</string>
+    <string name="reminder_1_hour">1 hour before</string>
+    <string name="reminder_1_day">1 day before</string>
+    <string name="reminder_custom">Custom…</string>
+
+    <!-- Success -->
+    <string name="success_title">Event saved</string>
+    <string name="success_subtitle">%1$s was added to your calendar.</string>
+    <string name="action_open_calendar">Open calendar</string>
+    <string name="action_done">Done</string>
+    <string name="action_scan_another">Scan another</string>
+
+    <!-- Errors / status -->
+    <string name="error_no_text">No text could be detected in the image. Try a clearer picture.</string>
+    <string name="error_ocr_failed">Could not read the image. Please try again.</string>
+    <string name="error_no_calendar">No calendar account was found on this device.</string>
+    <string name="error_save_failed">Could not save the event.</string>
+    <string name="permission_camera_needed">Camera permission is required to take a photo.</string>
+    <string name="permission_calendar_needed">Calendar permission is required to save the event.</string>
+
+    <!-- Event type labels -->
+    <string name="type_wedding">Wedding</string>
+    <string name="type_flight">Flight</string>
+    <string name="type_doctor">Doctor appointment</string>
+    <string name="type_meeting">Meeting</string>
+    <string name="type_hotel">Hotel reservation</string>
+    <string name="type_restaurant">Restaurant reservation</string>
+    <string name="type_concert">Concert</string>
+    <string name="type_birthday">Birthday</string>
+    <string name="type_school">School event</string>
+    <string name="type_conference">Conference</string>
+    <string name="type_general">Event</string>
+</resources>

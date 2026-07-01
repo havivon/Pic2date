@@ -1,0 +1,24 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Calendar body -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M30,36 h48 a4,4 0 0 1 4,4 v36 a4,4 0 0 1 -4,4 h-48 a4,4 0 0 1 -4,-4 v-36 a4,4 0 0 1 4,-4 z" />
+    <!-- Header bar -->
+    <path
+        android:fillColor="#1A73E8"
+        android:pathData="M26,40 a4,4 0 0 1 4,-4 h48 a4,4 0 0 1 4,4 v6 h-56 z" />
+    <!-- Rings -->
+    <path android:fillColor="#FFFFFF" android:pathData="M38,30 h4 v10 h-4 z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M66,30 h4 v10 h-4 z" />
+    <!-- Camera lens hint -->
+    <path
+        android:fillColor="#1A73E8"
+        android:pathData="M54,64 m-9,0 a9,9 0 1,0 18,0 a9,9 0 1,0 -18,0" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,64 m-4,0 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0" />
+</vector>

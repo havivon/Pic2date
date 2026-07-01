@@ -1,0 +1,27 @@
+# Gradle
+.gradle/
+build/
+**/build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Android / IntelliJ / Android Studio
+*.iml
+.idea/
+local.properties
+captures/
+.cxx/
+*.apk
+*.aab
+*.ap_
+*.dex
+output.json
+
+# Tesseract trained data (fetched via scripts/fetch-tessdata.sh)
+app/src/main/assets/tessdata/*.traineddata
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
