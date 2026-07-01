@@ -9,9 +9,9 @@ import kotlin.coroutines.resumeWithException
 import kotlinx.coroutines.suspendCancellableCoroutine
 
 /**
- * On-device ML Kit text recognition (Latin script). Fast and offline, used as a
- * fallback when the Tesseract Hebrew+English data is not available. ML Kit's
- * on-device models do not currently cover Hebrew, hence Tesseract is preferred.
+ * On-device ML Kit text recognition (Latin script). Fast and fully offline.
+ * ML Kit's on-device models do not currently cover Hebrew; a Hebrew engine can
+ * be added behind [OcrEngine] without changing callers.
  */
 class MlKitOcrEngine : OcrEngine {
 

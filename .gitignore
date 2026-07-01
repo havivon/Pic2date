@@ -16,9 +16,6 @@ captures/
 *.dex
 output.json
 
-# Tesseract trained data (fetched via scripts/fetch-tessdata.sh)
-app/src/main/assets/tessdata/*.traineddata
-
 # OS
 .DS_Store
 Thumbs.db
