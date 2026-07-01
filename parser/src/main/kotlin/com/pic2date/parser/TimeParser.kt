@@ -17,11 +17,13 @@ data class TimeMatch(
 object TimeParser {
 
     // Range first so "19:00-23:00" is captured whole.
-    private val range = Regex("""\b(\d{1,2}):(\d{2})\s*[-–—]\s*(\d{1,2}):(\d{2})\b""")
+    private val range = Regex(
+        """\b(\d{1,2})\s{0,2}:\s{0,2}(\d{2})\s*[-–—]\s*(\d{1,2})\s{0,2}:\s{0,2}(\d{2})\b""",
+    )
 
-    // 19:30 / 7:30 pm / 09:15
+    // 19:30 / 7:30 pm / 09:15. Tolerates OCR spacing around the colon ("15 : 00").
     private val colon = Regex(
-        """\b(\d{1,2}):(\d{2})\s*(a\.?m\.?|p\.?m\.?)?""",
+        """\b(\d{1,2})\s{0,2}:\s{0,2}(\d{2})\s*(a\.?m\.?|p\.?m\.?)?""",
         RegexOption.IGNORE_CASE,
     )
 

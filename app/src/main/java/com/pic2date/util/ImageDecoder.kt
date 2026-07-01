@@ -17,8 +17,11 @@ import kotlinx.coroutines.withContext
  */
 object ImageLoader {
 
-    /** Longest edge we feed to OCR. Bigger wastes time without helping accuracy. */
-    private const val MAX_DIMENSION = 2200
+    /**
+     * Longest edge we feed to OCR. Kept high so small text (e.g. a date line on a
+     * photographed screen) survives; Tesseract handles large images fine.
+     */
+    private const val MAX_DIMENSION = 3300
 
     suspend fun load(context: Context, uri: Uri, mimeType: String?): Bitmap? =
         withContext(Dispatchers.IO) {
