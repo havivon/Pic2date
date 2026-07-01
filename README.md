@@ -14,9 +14,8 @@ and creates a calendar event — in **Hebrew and English**.
 - **Image input** — take a photo, pick from the gallery, or **share an image
   straight from another app** (WhatsApp, Gmail, browser, screenshots). Handles
   JPG, PNG, screenshots and single-page PDFs.
-- **Offline OCR** — on-device ML Kit text recognition. No network required. The
-  OCR layer is behind a pluggable `OcrEngine` interface (see the Hebrew note
-  below).
+- **Offline OCR** — Tesseract (Hebrew + English in one pass) on-device, with an
+  ML Kit (Latin) fallback. No network required.
 - **Smart event extraction** — a deterministic parser detects:
   - Title, date and time (many formats, incl. `12/08/2026`, `August 12 2026`,
     `12 Aug 2026`, `Thursday 14.8 at 19:30`, `יום חמישי 14.8 בשעה 19:30`).
@@ -75,9 +74,16 @@ fast, deterministic and unit-tested independently of Android.
 
 ### Build the APK
 ```bash
+# 1. Fetch the Hebrew + English OCR data into app assets (a few MB).
+scripts/fetch-tessdata.sh
+
+# 2. Assemble.
 ./gradlew :app:assembleDebug
 # APK -> app/build/outputs/apk/debug/app-debug.apk
 ```
+
+If the trained data is not fetched, the app still builds and falls back to ML
+Kit (Latin) OCR at runtime.
 
 ### Run the parser tests
 ```bash
@@ -94,19 +100,15 @@ every push.
 
 ## OCR & Hebrew note
 
-The **parser understands Hebrew and English equally** — event-type detection,
-dates, times and locations all work in both languages once text is available.
+Hebrew is a first-class language here. Google ML Kit's on-device text
+recognition covers Latin, Chinese, Devanagari, Japanese and Korean — **not
+Hebrew** — so Pic2Date uses **Tesseract** (`heb+eng`) as the primary on-device
+engine (via the `com.github.adaptech-cz.Tesseract4Android` JitPack artifact),
+with ML Kit kept as a fast Latin fallback. Both run entirely offline.
 
-For the image → text step, the app currently uses **Google ML Kit** on-device
-text recognition. ML Kit's on-device models cover Latin, Chinese, Devanagari,
-Japanese and Korean — **not Hebrew**. So Hebrew *images* are not yet recognized
-on-device.
-
-The OCR layer is deliberately built behind an `OcrEngine` interface
-(`app/src/main/java/com/pic2date/ocr/`), so a Hebrew engine (e.g. Tesseract
-`heb+eng`, bundled as an `.aar` with its trained data) can be added as the
-primary engine with ML Kit as the Latin fast-path — without changing any
-callers.
+The trained data (`heb.traineddata`, `eng.traineddata`, Tesseract "fast" models)
+is fetched into `app/src/main/assets/tessdata/` at build time by
+`scripts/fetch-tessdata.sh` (CI does this automatically) and is not committed.
 
 ## Parser examples (verified by unit tests)
 

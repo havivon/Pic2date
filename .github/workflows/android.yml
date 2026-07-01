@@ -28,6 +28,15 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Fetch Tesseract trained data (Hebrew + English)
+        run: |
+          set -e
+          mkdir -p app/src/main/assets/tessdata
+          base="https://github.com/tesseract-ocr/tessdata_fast/raw/main"
+          curl -fSL -o app/src/main/assets/tessdata/eng.traineddata "$base/eng.traineddata"
+          curl -fSL -o app/src/main/assets/tessdata/heb.traineddata "$base/heb.traineddata"
+          ls -lh app/src/main/assets/tessdata
+
       - name: Run parser unit tests
         run: ./gradlew :parser:test --stacktrace
 
