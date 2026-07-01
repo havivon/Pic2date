@@ -10,8 +10,7 @@ set -euo pipefail
 
 DEST="$(cd "$(dirname "$0")/.." && pwd)/app/src/main/assets/tessdata"
 BASE_URL="https://github.com/tesseract-ocr/tessdata_fast/raw/main"
-# osd = orientation & script detection (auto-rotates sideways photos)
-LANGS=("eng" "heb" "osd")
+LANGS=("eng" "heb")
 
 mkdir -p "$DEST"
 

@@ -35,7 +35,6 @@ jobs:
           base="https://github.com/tesseract-ocr/tessdata_fast/raw/main"
           curl -fSL -o app/src/main/assets/tessdata/eng.traineddata "$base/eng.traineddata"
           curl -fSL -o app/src/main/assets/tessdata/heb.traineddata "$base/heb.traineddata"
-          curl -fSL -o app/src/main/assets/tessdata/osd.traineddata "$base/osd.traineddata"
           ls -lh app/src/main/assets/tessdata
 
       - name: Run parser unit tests

@@ -19,7 +19,7 @@ object EventParser {
 
         val isHebrew = TextLang.isPrimarilyHebrew(text)
         val dateMatch = DateParser.parse(text, today)
-        val timeMatch = TimeParser.parse(text)
+        val timeMatch = TimeParser.parseCombined(text)
         val typeResult = EventTypeClassifier.classify(text)
         val location = LocationExtractor.extract(text)
         val phone = ContactExtractor.extractPhone(text)

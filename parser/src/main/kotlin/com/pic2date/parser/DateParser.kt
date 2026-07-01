@@ -57,10 +57,11 @@ object DateParser {
         """(\d{1,2})\s+(?:ב|ל)?($heMonthAlt)(?:\s+(\d{4}))?""",
     )
 
-    // Numeric: 12/08/2026, 12.08.26, 12-8, 14.8. Tolerates small spaces that OCR
-    // often inserts around separators ("2. 7. 26").
+    // Numeric: 12/08/2026, 12.08.26, 12-8, 14.8, and stylized "18 | 08 | 26"
+    // (invitations often use pipes). Tolerates small spaces that OCR often
+    // inserts around separators ("2. 7. 26").
     private val numeric = Regex(
-        """\b(\d{1,2})\s{0,2}[./\-]\s{0,2}(\d{1,2})(?:\s{0,2}[./\-]\s{0,2}(\d{2,4}))?\b""",
+        """\b(\d{1,2})\s{0,3}[./\-|]\s{0,3}(\d{1,2})(?:\s{0,3}[./\-|]\s{0,3}(\d{2,4}))?\b""",
     )
 
     fun parse(text: String, today: LocalDate = LocalDate.now()): DateMatch? {

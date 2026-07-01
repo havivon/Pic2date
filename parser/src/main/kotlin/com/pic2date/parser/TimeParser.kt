@@ -33,6 +33,37 @@ object TimeParser {
         RegexOption.IGNORE_CASE,
     )
 
+    /**
+     * Like [parse], but when the text carries several standalone times (e.g. a
+     * wedding invitation with reception 19:30 and ceremony 20:30) it treats the
+     * earliest as the start and the latest as the end.
+     */
+    fun parseCombined(text: String): TimeMatch? {
+        range.find(text)?.let { m ->
+            val start = toTime(m.groupValues[1].toInt(), m.groupValues[2].toInt(), null)
+            val end = toTime(m.groupValues[3].toInt(), m.groupValues[4].toInt(), null)
+            if (start != null && end != null) return TimeMatch(start, end, m.range)
+        }
+
+        val singles = mutableListOf<Pair<LocalTime, IntRange>>()
+        colon.findAll(text).forEach { m ->
+            toTime(m.groupValues[1].toInt(), m.groupValues[2].toInt(), m.groupValues[3])
+                ?.let { singles += it to m.range }
+        }
+        if (singles.isEmpty()) {
+            meridiem.findAll(text).forEach { m ->
+                toTime(m.groupValues[1].toInt(), 0, m.groupValues[2])
+                    ?.let { singles += it to m.range }
+            }
+        }
+        if (singles.isEmpty()) return null
+
+        val sorted = singles.map { it.first }.distinct().sorted()
+        val start = sorted.first()
+        val end = sorted.last().takeIf { it != start }
+        return TimeMatch(start, end, singles.first().second)
+    }
+
     fun parse(text: String): TimeMatch? {
         range.find(text)?.let { m ->
             val start = toTime(m.groupValues[1].toInt(), m.groupValues[2].toInt(), null)
