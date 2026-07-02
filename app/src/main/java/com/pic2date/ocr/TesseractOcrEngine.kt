@@ -53,6 +53,11 @@ class TesseractOcrEngine(
             instance.recycle()
             throw OcrUnavailableException("Tesseract failed to initialize for '$languages'")
         }
+        // Android Bitmaps carry no print resolution, so Tesseract guesses one —
+        // and its page-layout analysis is very sensitive to that guess (a wrong
+        // DPI collapsed a full invitation to four lines). 150 measured best on
+        // real invitation photos; see docs/ocr-lab.md for the methodology.
+        instance.setVariable("user_defined_dpi", "150")
         api = instance
         return instance
     }
