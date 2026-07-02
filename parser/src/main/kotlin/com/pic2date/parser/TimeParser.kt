@@ -58,11 +58,23 @@ object TimeParser {
         }
         if (singles.isEmpty()) return null
 
-        val sorted = singles.map { it.first }.distinct().sorted()
+        // Times glued to a date ("7/2/26 23:25") are app/message timestamps,
+        // not event times — ignore them unless nothing else was found.
+        val clean = singles.filterNot { precededByDate(text, it.second) }
+        val effective = clean.ifEmpty { singles }
+
+        val sorted = effective.map { it.first }.distinct().sorted()
         val start = sorted.first()
         val end = sorted.last().takeIf { it != start }
-        return TimeMatch(start, end, singles.first().second)
+        return TimeMatch(start, end, effective.first().second)
     }
+
+    private val dateBefore = Regex(
+        """\d{1,2}\s{0,3}[./\-|]\s{0,3}\d{1,2}(?:\s{0,3}[./\-|]\s{0,3}\d{2,4})?[\s,]{0,3}$""",
+    )
+
+    private fun precededByDate(text: String, range: IntRange): Boolean =
+        dateBefore.containsMatchIn(text.substring(0, range.first))
 
     fun parse(text: String): TimeMatch? {
         range.find(text)?.let { m ->

@@ -51,7 +51,23 @@ object EventParser {
         timeMatch: TimeMatch?,
         location: String?,
     ): String {
-        if (type != EventType.GENERAL) return type.title(isHebrew)
+        if (type != EventType.GENERAL) {
+            // Prefer the user's own wording when a short line *starts with* the
+            // type keyword — "יום הולדת לשני" beats the generic "יום הולדת".
+            val keywordLine = text.lines()
+                .map { it.trim() }
+                .firstOrNull { line ->
+                    line.length in 2..60 && type.strongKeywords.any { kw ->
+                        kw !in scheduleLabelKeywords &&
+                            (
+                                line.startsWith(kw, ignoreCase = true) ||
+                                    // Allow a single Hebrew prefix letter (ל/ב/ה…).
+                                    (TextLang.isHebrewChar(line.first()) && line.drop(1).startsWith(kw))
+                                )
+                    }
+                }
+            return keywordLine ?: type.title(isHebrew)
+        }
 
         // For a generic event, use the first meaningful line as the title.
         val lines = text.lines().map { it.trim() }.filter { it.isNotBlank() }
@@ -63,6 +79,16 @@ object EventParser {
         val candidate = firstMeaningful ?: type.title(isHebrew)
         return candidate.take(60).trim()
     }
+
+    /**
+     * Classification keywords that are schedule/section labels, not event names —
+     * a line starting with one must not become the title ("חופה וקידושין" is the
+     * ceremony slot on a wedding invitation, not the event's name).
+     */
+    private val scheduleLabelKeywords = setOf(
+        "חופה", "קבלת פנים", "save the date", "boarding", "departure", "gate",
+        "check-in", "check in", "checkin", "check-out", "doors open", "פתיחת דלתות",
+    )
 
     private fun dateText(full: String, match: DateMatch): String =
         full.substring(match.range)

@@ -8,6 +8,11 @@ data class DateMatch(
     val date: LocalDate,
     val range: IntRange,
     val hadExplicitYear: Boolean,
+    /**
+     * True when the date is immediately followed by a clock time ("7/2/26 23:25")
+     * — the signature of app/message timestamps rather than the event's date.
+     */
+    val timestampLike: Boolean = false,
 )
 
 /**
@@ -96,11 +101,20 @@ object DateParser {
         HebrewDateParser.parse(text)?.let { candidates += it }
 
         if (candidates.isEmpty()) return null
-        // Prefer the candidate that appears earliest in the text; among ties
-        // (overlapping matches) prefer the one carrying an explicit year.
+        // Timestamp-like dates (followed by a clock time — screenshot headers,
+        // WhatsApp message times) lose to plain dates. Then prefer the earliest
+        // in the text; among ties prefer the one carrying an explicit year.
         return candidates
-            .sortedWith(compareBy({ it.range.first }, { !it.hadExplicitYear }))
+            .map { it.copy(timestampLike = followedByClock(text, it.range)) }
+            .sortedWith(compareBy({ it.timestampLike }, { it.range.first }, { !it.hadExplicitYear }))
             .first()
+    }
+
+    private val clockAfter = Regex("""^[\s,]{0,3}\d{1,2}:\d{2}""")
+
+    private fun followedByClock(text: String, range: IntRange): Boolean {
+        val after = text.substring((range.last + 1).coerceAtMost(text.length))
+        return clockAfter.containsMatchIn(after)
     }
 
     private fun build(
