@@ -145,25 +145,20 @@ class TesseractOcrEngine(
         )
     }
 
-    /** Grayscale + upscale small images for more reliable OCR. */
+    /**
+     * Grayscale only — deliberately NO resizing. Measured on a real invitation:
+     * even a mild bilinear upscale (1748 -> 1800) blurred thin strokes enough to
+     * collapse recognition from a full page to four lines, while the unresized
+     * grayscale image read fine.
+     */
     private fun preprocess(src: Bitmap): Bitmap {
-        val longest = maxOf(src.width, src.height)
-        val target = 1800
-        val scale = if (longest < target) target.toFloat() / longest else 1f
-        val scaled = if (scale != 1f) {
-            Bitmap.createScaledBitmap(src, (src.width * scale).toInt(), (src.height * scale).toInt(), true)
-        } else {
-            src
-        }
-
-        val gray = Bitmap.createBitmap(scaled.width, scaled.height, Bitmap.Config.ARGB_8888)
+        val gray = Bitmap.createBitmap(src.width, src.height, Bitmap.Config.ARGB_8888)
         Canvas(gray).drawBitmap(
-            scaled,
+            src,
             0f,
             0f,
             Paint().apply { colorFilter = ColorMatrixColorFilter(ColorMatrix().apply { setSaturation(0f) }) },
         )
-        if (scaled != src) scaled.recycle()
         return gray
     }
 

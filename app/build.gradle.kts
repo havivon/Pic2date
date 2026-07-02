@@ -24,6 +24,18 @@ android {
         }
     }
 
+    signingConfigs {
+        // Fixed debug keystore committed to the repo so every CI build carries
+        // the same signature — updates install over the previous version
+        // instead of requiring an uninstall. Debug-only; not a secret.
+        getByName("debug") {
+            storeFile = file("debug.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true

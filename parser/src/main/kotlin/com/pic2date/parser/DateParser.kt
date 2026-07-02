@@ -92,6 +92,8 @@ object DateParser {
             val year = m.groupValues[3].toIntOrNull()?.let { if (it < 100) 2000 + it else it }
             build(day, month, year, m.range, today)?.let { candidates += it }
         }
+        // Hebrew-calendar dates ("ה' באלול תשפ"ו") carry an explicit year.
+        HebrewDateParser.parse(text)?.let { candidates += it }
 
         if (candidates.isEmpty()) return null
         // Prefer the candidate that appears earliest in the text; among ties
