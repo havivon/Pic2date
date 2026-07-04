@@ -4,7 +4,9 @@ description: >
   Full physical-product design pipeline: turn a short brief (Hebrew or English)
   into an engineering spec, detailed 2D technical drawings with dimensions
   (SVG orthographic views + title block), a parametric 3D model (OpenSCAD),
-  exported STL, rendered 3D views, and an interactive design dossier.
+  exported STL, rendered 3D views, 3D-print preparation (orientation,
+  supports, slicer settings) with a final print-ready 3MF/G-code file, and
+  an interactive design dossier.
   Use whenever the user asks to design/plan a physical product, device,
   enclosure, bracket, furniture piece, toy, fixture, or accessory —
   e.g. "תכנן לי מוצר", "design a product", "I need drawings and dimensions",
@@ -92,6 +94,30 @@ Write a `.scad` file per the conventions in `references/3d-guide.md`:
 Render at least 4 PNG views (front-iso, back-iso, top, exploded) when a
 renderer is available.
 
+### Step 4b — 3D-print preparation & final print file
+
+Whenever the manufacturing method is 3D printing (or the user asks for a
+printable file), follow `references/print-prep.md` and produce:
+
+1. **Print plan** — per part: build orientation (and why), support strategy,
+   estimated bed footprint vs. common printer volumes (220×220×250 /
+   256×256×256), and whether the part must be split (add alignment
+   pins/joints if so).
+2. **Slicer settings sheet** — material, nozzle/layer height, perimeters,
+   infill % and pattern, supports on/off + angle, brim/raft, and any
+   per-part overrides. Include it in the spec and the dossier.
+3. **Final print file** — export a **3MF** (preferred: embeds orientation and
+   units; via OpenSCAD `-o model.3mf` or trimesh) in the print orientation,
+   plus the STL. If a slicer CLI is available or installable
+   (`prusa-slicer`/`slic3r`), also slice to **G-code** with the settings
+   sheet values and report estimated print time and filament use. If no
+   slicer is available, say so and deliver the 3MF/STL as the final file —
+   never guess G-code by hand.
+
+Parts must pass the FDM rules in `references/dfm-rules.md` *in the chosen
+orientation* (overhangs, bridging, layer-direction strength) — re-check after
+picking orientation, not before.
+
 ### Step 5 — Interactive design dossier (Artifact)
 
 Load the `artifact-design` skill, then build ONE artifact page containing:
@@ -105,9 +131,10 @@ Load the `artifact-design` skill, then build ONE artifact page containing:
 ### Step 6 — Deliver files
 
 Send via `SendUserFile` (single call, `display` unset):
-`spec` (in the artifact), all `.svg` sheets, the `.scad`, the `.stl`, and
-renders. Caption listing what each file is for (e.g. "the STL is
-print-ready / the SCAD lets you tweak any dimension").
+`spec` (in the artifact), all `.svg` sheets, the `.scad`, the `.stl`, the
+print-oriented `.3mf` (and `.gcode` when sliced), and renders. Caption
+listing what each file is for (e.g. "the 3MF is the final print-ready file /
+the SCAD lets you tweak any dimension").
 
 ## Quality gates (check before delivering)
 
@@ -117,6 +144,9 @@ print-ready / the SCAD lets you tweak any dimension").
 - [ ] STL opens as a valid, watertight mesh (verify: re-parse triangle count, or
       `trimesh.load(...).is_watertight` when available).
 - [ ] Mating parts have explicit clearance (moving fit ≥0.3mm FDM; press fit per spec).
+- [ ] For printed parts: part fits the target build volume in its print
+      orientation, overhangs >45° are supported or designed away, and the
+      final 3MF/G-code matches the slicer settings sheet.
 - [ ] Final message: TL;DR of the design, key dimensions, and what each delivered file is.
 
 ## Iteration
